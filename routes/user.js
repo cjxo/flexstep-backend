@@ -1,0 +1,10 @@
+const express = require("express");
+const userRouter = express.Router();
+
+// https://expressjs.com/en/guide/routing.html
+// - Routing refers to determining how an application responds to a client request
+// to a particular endpoint, which is a URI and a specific HTTP request method:
+//   - router.METHOD(PATH, MIDDLEWARE/HANDLE)
+//userRouter.post("/add/:id");
+
+module.exports = userRouter;
