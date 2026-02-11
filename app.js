@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const userRouter = require("./routes/user");
+
+// this is test; remove this and its depencies soon
+const queriesRouter = require("./routes/queries");
 const path = require("node:path");
 
 // https://expressjs.com/en/api.html
@@ -24,7 +27,7 @@ app.get("/api", (req, res) => {
 });
 
 app.use("/api/user", userRouter);
-
+app.use("/api/queries", queriesRouter);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../flexstep-frontend/dist")));
   // https://expressjs.com/en/guide/migrating-5.html#path-syntax (LMFAOO)
