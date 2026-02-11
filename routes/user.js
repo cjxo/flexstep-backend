@@ -1,4 +1,5 @@
 const express = require("express");
+const user = require("../controllers/user");
 const userRouter = express.Router();
 
 // https://expressjs.com/en/guide/routing.html
@@ -6,5 +7,8 @@ const userRouter = express.Router();
 // to a particular endpoint, which is a URI and a specific HTTP request method:
 //   - router.METHOD(PATH, MIDDLEWARE/HANDLE)
 //userRouter.post("/add/:id");
+userRouter.get("/", user.getAll);
+userRouter.get("/:uid", user.getByUid);
+userRouter.post("/", user.insert);
 
 module.exports = userRouter;

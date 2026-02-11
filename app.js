@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const userRouter = require("./routes/user");
 
@@ -12,6 +13,11 @@ const path = require("node:path");
 //   - After going through this function, a `body` object containing parsed data is in the `request` object
 //   - we will use REST api; we use JSON as a file format
 app.use(express.json());
+
+app.use(cors({
+  origin: ["http://localhost:5173"],
+  credentials: true
+}));
 
 // https://expressjs.com/en/api.html
 // https://www.geeksforgeeks.org/web-tech/express-js-express-urlencoded-function/

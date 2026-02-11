@@ -5,4 +5,61 @@ module.exports = {
     const { rows } = await pool.query("SELECT * FROM users;");
     return rows;
   },
+
+  user: {
+    getAll: async () => {
+      const sql = `
+        SELECT
+          id, first_name, last_name,
+          username, email, joined_date,
+          update_date
+        FROM
+          users;
+      `;
+      const { rows } = await pool.query(sql);
+      return(rows);
+    },
+
+    getByUid: async (uid) => {
+      const sql = `
+        SELECT * FROM users
+        WHERE id = $1;
+      `;
+
+      const { rows } = await pool.query(sql, [uid]);
+      return(rows[0]);
+    },
+
+    getByEmail: async (email) => {
+      const sql = `
+        SELECT * FROM users
+        WHERE email = $1;
+      `;
+
+      const { rows } = await pool.query(sql, [email]);
+      return(rows[0]);
+    },
+
+    getByUsername: async (username) => {
+      const sql = `
+        SELECT * FROM users
+        WHERE username = $1;
+      `;
+
+      const { rows } = await pool.query(sql, [username]);
+      return(rows[0]);
+    },
+
+    insert: async (first_name, last_name, username, password_hashed, email) => {
+      const sql = `
+        INSERT INTO users
+          (first_name, last_name, username, password_hashed, email)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING id, first_name, last_name, username, email, joined_date, update_date;
+      `;
+
+      const { rows } = await pool.query(sql, [first_name, last_name, username, password_hashed, email]);
+      return(rows[0]);
+    },
+  },
 };
