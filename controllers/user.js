@@ -1,5 +1,7 @@
 const bcrypt = require("bcryptjs");
+const jsonwt = require("jsonwebtoken");
 const { user } = require("../db/queries");
+const env = require("../utils/config");
 
 module.exports = {
   getAll: async (req, res, next) => {
@@ -71,6 +73,16 @@ module.exports = {
         return res.status(400).json({ status: "failure", message: "Wrong password!" });
       }
 
+      const payload = { userId: userDb.id };
+      const duration = env.NODE_ENV === "production" ? "7d" : "30m";
+      const token = jsonwt.sign(payload, env.JWT_TOKEN_ACCESS, { expiresIn: duration });
+
+      res.cookie("remember_me_token", token, {
+        httpOnly: true,
+        maxAge: (env.NODE_ENV === "production") ? (7 * 24 * 60 * 60 * 1000) : (30 * 60 * 1000),
+        secure: env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
       res.status(200).json({ status: "success", message: "Logged in successfully.", user: { ...userDb, password_hashed: undefined } });
     } catch (err) {
       next(err);
