@@ -21,6 +21,7 @@ module.exports = {
     },
 
     getByUid: async (uid) => {
+      console.log(uid);
       const sql = `
         SELECT * FROM users
         WHERE id = $1;

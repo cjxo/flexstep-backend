@@ -1,11 +1,14 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const app = express();
 const userRouter = require("./routes/user");
 
 // this is test; remove this and its depencies soon
 const queriesRouter = require("./routes/queries");
 const path = require("node:path");
+
+app.use(cookieParser());
 
 // https://expressjs.com/en/api.html
 // - express.json: a built-in middleware in Express. It parses incoming requests with JSON payloads

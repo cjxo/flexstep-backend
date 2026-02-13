@@ -5,6 +5,7 @@ const env = require("../utils/config");
 
 module.exports = {
   getAll: async (req, res, next) => {
+    console.log("HEY");
     try {
       const users = await user.getAll();
       res.json({ status: "success", users });
@@ -84,6 +85,24 @@ module.exports = {
         sameSite: "strict",
       });
       res.status(200).json({ status: "success", message: "Logged in successfully.", user: { ...userDb, password_hashed: undefined } });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  isAuth: async (req, res, next) => {
+    try {
+      const userDb = await user.getByUid(req.userId);
+      if (!userDb) {
+        return res.status(400).json({ status: "failure", message: "User not found!" });
+      }
+
+      res.json({
+        status: "success",
+        message: "User is authenticated.",
+        user: { ...userDb, password_hashed: undefined },
+        timeRemaining: req.timeRemaining,
+      });
     } catch (err) {
       next(err);
     }

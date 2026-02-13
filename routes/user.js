@@ -1,5 +1,6 @@
 const express = require("express");
 const user = require("../controllers/user");
+const jwtutils = require("../utils/jwt");
 const userRouter = express.Router();
 
 // https://expressjs.com/en/guide/routing.html
@@ -8,6 +9,7 @@ const userRouter = express.Router();
 //   - router.METHOD(PATH, MIDDLEWARE/HANDLE)
 //userRouter.post("/add/:id");
 userRouter.get("/", user.getAll);
+userRouter.get("/is-auth", jwtutils.verify, user.isAuth);
 userRouter.get("/:uid", user.getByUid);
 userRouter.post("/", user.insert);
 userRouter.post("/log-in", user.login);
