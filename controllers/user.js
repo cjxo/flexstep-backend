@@ -53,4 +53,27 @@ module.exports = {
       next(err);
     }
   },
+
+  login: async (req, res, next) => {
+    try {
+      if (!req.body || !req.body.email || !req.body.password) {
+        return res.status(400).json({ status: "failure", message: "Please fill required form data fields 'email' and 'password'." });
+      }
+
+      const { email, password } = req.body;
+      const userDb = await user.getByEmail(email);
+      if (!userDb) {
+        return res.status(400).json({ status: "failure", message: "Email does not exist!" });
+      }
+
+      const passwordsMatched = await bcrypt.compare(password, userDb.password_hashed);
+      if (!passwordsMatched) {
+        return res.status(400).json({ status: "failure", message: "Wrong password!" });
+      }
+
+      res.status(200).json({ status: "success", message: "Logged in successfully.", user: { ...userDb, password_hashed: undefined } });
+    } catch (err) {
+      next(err);
+    }
+  },
 };

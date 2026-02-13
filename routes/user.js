@@ -10,5 +10,6 @@ const userRouter = express.Router();
 userRouter.get("/", user.getAll);
 userRouter.get("/:uid", user.getByUid);
 userRouter.post("/", user.insert);
+userRouter.post("/log-in", user.login);
 
 module.exports = userRouter;
