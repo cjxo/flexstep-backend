@@ -5,7 +5,6 @@ const env = require("../utils/config");
 
 module.exports = {
   getAll: async (req, res, next) => {
-    console.log("HEY");
     try {
       const users = await user.getAll();
       res.json({ status: "success", users });
