@@ -106,4 +106,18 @@ module.exports = {
       next(err);
     }
   },
+
+  signOut: async (req, res, next) => {
+    try {
+      res
+        .clearCookie("remember_me_token", {
+          httpOnly: true,
+          secure: env.NODE_ENV === "production",
+          sameSite: "strict",
+        })
+        .json({ status: "success", message: "Sign out successful!" });
+    } catch (err) {
+      next(err);
+    }
+  },
 };

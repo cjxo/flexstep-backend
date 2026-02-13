@@ -13,5 +13,6 @@ userRouter.get("/is-auth", jwtutils.verify, user.isAuth);
 userRouter.get("/:uid", user.getByUid);
 userRouter.post("/", user.insert);
 userRouter.post("/log-in", user.login);
+userRouter.post("/sign-out", user.signOut);
 
 module.exports = userRouter;
