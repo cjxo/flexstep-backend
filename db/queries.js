@@ -61,5 +61,21 @@ module.exports = {
       const { rows } = await pool.query(sql, [first_name, last_name, username, password_hashed, email]);
       return(rows[0]);
     },
+
+    update: async (uid, newUser) => {
+      const sql = `
+        UPDATE users
+        SET
+          first_name = $2,
+          last_name = $3,
+          username = $4,
+          email = $5
+        WHERE id = $1
+        RETURNING id, first_name, last_name, username, email, joined_date, update_date;
+      `;
+
+      const { rows } = await pool.query(sql, [uid, newUser.first_name, newUser.last_name, newUser.username, newUser.email]);
+      return(rows[0]);
+    },
   },
 };
