@@ -14,6 +14,7 @@ userRouter.get("/:uid", user.getByUid);
 userRouter.post("/", user.insert);
 userRouter.post("/log-in", user.login);
 userRouter.post("/sign-out", user.signOut);
-userRouter.put("/:uid", user.update);
+userRouter.put("/:uid", jwtutils.verify, user.update);
+userRouter.delete("/:uid", jwtutils.verify, user.deleteUser);
 
 module.exports = userRouter;

@@ -154,4 +154,20 @@ module.exports = {
       next(err);
     }
   },
+
+  deleteUser: async (req, res, next) => {
+    try {
+      await user.deleteByUid(parseInt(req.params.uid));
+      res
+        .clearCookie("remember_me_token", {
+          httpOnly: true,
+          secure: env.NODE_ENV === "production",
+          sameSite: "strict",
+        })
+        .status(200)
+        .json({ status: "success", message: "Successully deleted user" });
+    } catch (err) {
+      next(err);
+    }
+  },
 };

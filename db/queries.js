@@ -77,5 +77,14 @@ module.exports = {
       const { rows } = await pool.query(sql, [uid, newUser.first_name, newUser.last_name, newUser.username, newUser.email]);
       return(rows[0]);
     },
+
+    deleteByUid: async (uid) => {
+      const sql = `
+        DELETE FROM users
+        WHERE id = $1;
+      `;
+
+      await pool.query(sql, [uid]);
+    },
   },
 };
