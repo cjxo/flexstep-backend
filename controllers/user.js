@@ -132,12 +132,20 @@ module.exports = {
         return res.status(400).json({ status: "failure", message: "All fields are required.",  });
       }
 
-      const userDb = await user.getByEmail(email);
-      if (userDb) {
-        if (userDb.id !== parseInt(req.params.uid)) {
+      const userEm = await user.getByEmail(email);
+      if (userEm) {
+        if (userEm.id !== parseInt(req.params.uid)) {
           return res.status(400).json({ status: "failure", message: "Email is already taken!" });
         }
         // ... else, email is not taken, and can be used
+      }
+
+      const userUn = await user.getByUsername(username);
+      if (userUn) {
+        if (userUn.id !== parseInt(req.params.uid)) {
+          return res.status(400).json({ status: "failure", message: "Username is already taken!" });
+        }
+        // ... else, username is not taken, and can be used
       }
 
       const updatedUser = await user.update(parseInt(req.params.uid), req.body);
