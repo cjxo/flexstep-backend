@@ -31,6 +31,14 @@ app.use(cors({
 //   - Typically used for handling user authentication forms.
 app.use(express.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+  if (req.body && req.body.email) {
+    req.body.email = req.body.email.toLowerCase();
+  }
+
+  next();
+});
+
 app.get("/api", (req, res) => {
   res.json({ message: "Welcome to FlexStep API!" });
 });
